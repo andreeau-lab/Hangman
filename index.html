@@ -18,52 +18,33 @@
         </div>
       </header>
 
-      <section class="status" aria-label="Game status">
+      <section class="status">
         <div class="pill">❤️ Lives: <span id="lives">6</span></div>
         <div class="pill">🙈 Wrong: <span id="wrong">0</span></div>
         <div class="pill">🏆 Win rate: <span id="score">0 of 0</span></div>
       </section>
 
       <section class="playArea">
-        <section class="hangman" aria-label="Hangman drawing">
+        <section class="hangman">
           <div class="panelTitle">The Drama Meter</div>
           <pre id="hangmanArt" class="hangmanArt"></pre>
         </section>
 
-        <section class="word" aria-label="Word to guess">
+        <section class="word">
           <div class="panelTitle">Guess the Word</div>
           <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
         </section>
       </section>
 
-      <section class="meta" aria-label="Hints and guesses">
+      <section class="meta">
         <div class="line">
           <span class="label">Hint:</span>
-          <span id="hint" class="hint">—</span>
+          <span id="hint">—</span>
         </div>
         <div class="line">
           <span class="label">Guessed:</span>
-          <span id="guessed" class="guessed">—</span>
+          <span id="guessed">—</span>
         </div>
       </section>
 
-      <section class="message" aria-live="polite">
-        <div id="message"></div>
-      </section>
-
-      <section class="keyboardWrap" aria-label="On-screen keyboard">
-        <div class="keyboardHeader">
-          <div class="kbdTitle">Tap letters</div>
-          <div class="kbdNote">Tip: sounds start after your first tap/keypress 🔊</div>
-        </div>
-        <div id="keyboard" class="keyboard"></div>
-      </section>
-
-      <footer class="actions">
-        <button id="resetBtn" class="btn">New word</button>
-      </footer>
-    </main>
-
-    <script src="app.js"></script>
-  </body>
-</html>
+      <section class="message" aria-live
