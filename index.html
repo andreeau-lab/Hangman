@@ -7,45 +7,56 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="card">
+    <main class="card" role="application" aria-label="Hangman game">
       <header class="header">
-        <h1>Hangman</h1>
-        <p class="sub">
-          Type letters on your keyboard (or tap letters on mobile).
-        </p>
+        <div class="titleRow">
+          <div class="logo" aria-hidden="true">✨</div>
+          <div>
+            <h1>Hangman</h1>
+            <p class="sub">Type letters, or tap the keyboard below. (Tablet-friendly!)</p>
+          </div>
+        </div>
       </header>
 
-      <section class="status">
-        <div class="pill">Lives: <span id="lives">6</span></div>
-        <div class="pill">Wrong: <span id="wrong">0</span></div>
-        <div class="pill">Win rate: <span id="score">0 of 0</span></div>
+      <section class="status" aria-label="Game status">
+        <div class="pill">❤️ Lives: <span id="lives">6</span></div>
+        <div class="pill">🙈 Wrong: <span id="wrong">0</span></div>
+        <div class="pill">🏆 Win rate: <span id="score">0 of 0</span></div>
       </section>
 
-      <section class="hangman" aria-label="Hangman drawing">
-        <pre id="hangmanArt" class="hangmanArt"></pre>
+      <section class="playArea">
+        <section class="hangman" aria-label="Hangman drawing">
+          <div class="panelTitle">The Drama Meter</div>
+          <pre id="hangmanArt" class="hangmanArt"></pre>
+        </section>
+
+        <section class="word" aria-label="Word to guess">
+          <div class="panelTitle">Guess the Word</div>
+          <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
+        </section>
       </section>
 
-      <section class="word">
-        <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
-      </section>
-
-      <section class="meta">
-        <div class="line">
-          <span class="label">Guessed:</span>
-          <span id="guessed">—</span>
-        </div>
+      <section class="meta" aria-label="Hints and guesses">
         <div class="line">
           <span class="label">Hint:</span>
-          <span id="hint">—</span>
+          <span id="hint" class="hint">—</span>
+        </div>
+        <div class="line">
+          <span class="label">Guessed:</span>
+          <span id="guessed" class="guessed">—</span>
         </div>
       </section>
 
-      <section class="message">
+      <section class="message" aria-live="polite">
         <div id="message"></div>
       </section>
 
-      <section class="keyboard">
-        <div id="keyboard"></div>
+      <section class="keyboardWrap" aria-label="On-screen keyboard">
+        <div class="keyboardHeader">
+          <div class="kbdTitle">Tap letters</div>
+          <div class="kbdNote">Tip: sounds start after your first tap/keypress 🔊</div>
+        </div>
+        <div id="keyboard" class="keyboard"></div>
       </section>
 
       <footer class="actions">
