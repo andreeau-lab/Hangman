@@ -151,5 +151,3 @@ body {
 @keyframes fall {
   to { transform: translateY(520px) rotate(240deg); opacity: 0; }
 }
-
-
