@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <header class="header">
+        <h1>Hangman</h1>
+        <p class="sub">
+          Type letters on your keyboard. You can also tap letters below (mobile).
+        </p>
+      </header>
+
+      <section class="status">
+        <div class="pill" id="livesPill">Lives: <span id="lives">6</span></div>
+        <div class="pill">Wrong: <span id="wrong">0</span></div>
+      </section>
+
+      <section class="word" aria-label="Word to guess">
+        <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
+      </section>
+
+      <section class="meta">
+        <div class="line">
+          <span class="label">Guessed:</span>
+          <span id="guessed" class="guessed">—</span>
+        </div>
+        <div class="line">
+          <span class="label">Hint:</span>
+          <span id="hint" class="hint">—</span>
+        </div>
+      </section>
+
+      <section class="message" aria-live="polite">
+        <div id="message"></div>
+      </section>
+
+      <section class="keyboard" aria-label="On-screen keyboard">
+        <div id="keyboard"></div>
+      </section>
+
+      <footer class="actions">
+        <button id="resetBtn" class="btn">New word</button>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
