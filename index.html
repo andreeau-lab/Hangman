@@ -47,4 +47,30 @@
         </div>
       </section>
 
-      <section class="message" aria-live
+      <section class="message" aria-live="polite">
+        <div id="message"></div>
+      </section>
+
+      <section class="keyboardWrap">
+        <div class="keyboardHeader">
+          <div class="kbdTitle">Tap letters</div>
+          <div class="kbdNote">Tip: tap once to enable sound 🔊</div>
+        </div>
+        <div id="keyboard" class="keyboard"></div>
+      </section>
+
+      <footer class="actions">
+        <button id="resetBtn" class="btn">New word</button>
+      </footer>
+
+      <!-- Confetti overlay -->
+      <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+      <!-- End-of-game sounds -->
+      <audio id="sfxWin" src="win.wav" preload="auto"></audio>
+      <audio id="sfxLose" src="lose.wav" preload="auto"></audio>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
