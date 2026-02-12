@@ -8,25 +8,31 @@
   </head>
   <body>
     <main class="card">
+      <!-- Header -->
       <header class="header">
         <h1>Hangman</h1>
         <p class="sub">
-          Type letters on your keyboard. You can also tap letters below (mobile).
+          Type letters on your keyboard (or tap letters on mobile).
         </p>
       </header>
 
+      <!-- Status -->
       <section class="status">
-        <div class="pill" id="livesPill">Lives: <span id="lives">6</span></div>
+        <div class="pill">Lives: <span id="lives">6</span></div>
         <div class="pill">Wrong: <span id="wrong">0</span></div>
       </section>
-<section class="hangman" aria-label="Hangman drawing">
-  <pre id="hangmanArt" class="hangmanArt"></pre>
-</section>
 
+      <!-- Hangman drawing (THIS IS THE IMPORTANT PART) -->
+      <section class="hangman" aria-label="Hangman drawing">
+        <pre id="hangmanArt" class="hangmanArt"></pre>
+      </section>
+
+      <!-- Word -->
       <section class="word" aria-label="Word to guess">
         <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
       </section>
 
+      <!-- Meta info -->
       <section class="meta">
         <div class="line">
           <span class="label">Guessed:</span>
@@ -38,14 +44,17 @@
         </div>
       </section>
 
+      <!-- Messages -->
       <section class="message" aria-live="polite">
         <div id="message"></div>
       </section>
 
+      <!-- On-screen keyboard -->
       <section class="keyboard" aria-label="On-screen keyboard">
         <div id="keyboard"></div>
       </section>
 
+      <!-- Actions -->
       <footer class="actions">
         <button id="resetBtn" class="btn">New word</button>
       </footer>
@@ -53,5 +62,4 @@
 
     <script src="app.js"></script>
   </body>
-
 </html>
