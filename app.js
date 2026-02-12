@@ -87,6 +87,8 @@ const elMessage = document.getElementById("message");
 const elHint = document.getElementById("hint");
 const elKeyboard = document.getElementById("keyboard");
 const elReset = document.getElementById("resetBtn");
+const elHangmanArt = document.getElementById("hangmanArt");
+
 
 function pickWord() {
   const choice = WORDS[Math.floor(Math.random() * WORDS.length)];
@@ -107,6 +109,8 @@ function maskedWord() {
 
 function render() {
   elWord.textContent = maskedWord();
+  elHangmanArt.textContent = HANGMAN_FRAMES[wrong];
+
 
   const guessedList = [...guessed].sort().join(" ");
   elGuessed.textContent = guessedList.length ? guessedList : "—";
@@ -201,4 +205,5 @@ elReset.addEventListener("click", resetGame);
 
 buildKeyboard();
 resetGame();
+
 
