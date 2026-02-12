@@ -18,32 +18,32 @@
         </div>
       </header>
 
-      <section class="status">
+      <section class="status" aria-label="Game status">
         <div class="pill">❤️ Lives: <span id="lives">6</span></div>
         <div class="pill">🙈 Wrong: <span id="wrong">0</span></div>
         <div class="pill">🏆 Win rate: <span id="score">0 of 0</span></div>
       </section>
 
       <section class="playArea">
-        <section class="hangman">
+        <section class="hangman" aria-label="Hangman drawing">
           <div class="panelTitle">The Drama Meter</div>
           <pre id="hangmanArt" class="hangmanArt"></pre>
         </section>
 
-        <section class="word">
+        <section class="word" aria-label="Word to guess">
           <div class="panelTitle">Guess the Word</div>
           <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
         </section>
       </section>
 
-      <section class="meta">
+      <section class="meta" aria-label="Hints and guesses">
         <div class="line">
           <span class="label">Hint:</span>
-          <span id="hint">—</span>
+          <span id="hint" class="hint">—</span>
         </div>
         <div class="line">
           <span class="label">Guessed:</span>
-          <span id="guessed">—</span>
+          <span id="guessed" class="guessed">—</span>
         </div>
       </section>
 
@@ -51,10 +51,10 @@
         <div id="message"></div>
       </section>
 
-      <section class="keyboardWrap">
+      <section class="keyboardWrap" aria-label="On-screen keyboard">
         <div class="keyboardHeader">
           <div class="kbdTitle">Tap letters</div>
-          <div class="kbdNote">Tip: tap once to enable sound 🔊</div>
+          <div class="kbdNote">Tip: sounds start after your first tap/keypress 🔊</div>
         </div>
         <div id="keyboard" class="keyboard"></div>
       </section>
@@ -63,10 +63,10 @@
         <button id="resetBtn" class="btn">New word</button>
       </footer>
 
-      <!-- Confetti overlay -->
+      <!-- Confetti layer -->
       <div id="confetti" class="confetti" aria-hidden="true"></div>
 
-      <!-- End-of-game sounds -->
+      <!-- End-of-game sounds (upload win.wav + lose.wav to repo root) -->
       <audio id="sfxWin" src="win.wav" preload="auto"></audio>
       <audio id="sfxLose" src="lose.wav" preload="auto"></audio>
     </main>
