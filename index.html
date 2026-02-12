@@ -1,5 +1,3 @@
-<!-- force rebuild -->
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,7 +8,6 @@
   </head>
   <body>
     <main class="card">
-      <!-- Header -->
       <header class="header">
         <h1>Hangman</h1>
         <p class="sub">
@@ -18,45 +15,39 @@
         </p>
       </header>
 
-      <!-- Status -->
       <section class="status">
         <div class="pill">Lives: <span id="lives">6</span></div>
         <div class="pill">Wrong: <span id="wrong">0</span></div>
+        <div class="pill">Win rate: <span id="score">0 of 0</span></div>
       </section>
 
-      <!-- Hangman drawing (THIS IS THE IMPORTANT PART) -->
       <section class="hangman" aria-label="Hangman drawing">
         <pre id="hangmanArt" class="hangmanArt"></pre>
       </section>
 
-      <!-- Word -->
-      <section class="word" aria-label="Word to guess">
+      <section class="word">
         <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
       </section>
 
-      <!-- Meta info -->
       <section class="meta">
         <div class="line">
           <span class="label">Guessed:</span>
-          <span id="guessed" class="guessed">—</span>
+          <span id="guessed">—</span>
         </div>
         <div class="line">
           <span class="label">Hint:</span>
-          <span id="hint" class="hint">—</span>
+          <span id="hint">—</span>
         </div>
       </section>
 
-      <!-- Messages -->
-      <section class="message" aria-live="polite">
+      <section class="message">
         <div id="message"></div>
       </section>
 
-      <!-- On-screen keyboard -->
-      <section class="keyboard" aria-label="On-screen keyboard">
+      <section class="keyboard">
         <div id="keyboard"></div>
       </section>
 
-      <!-- Actions -->
       <footer class="actions">
         <button id="resetBtn" class="btn">New word</button>
       </footer>
@@ -65,4 +56,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-
