@@ -124,4 +124,22 @@ body {
   cursor: pointer;
   font-weight: 650;
 }
+
 .btn:hover { background: rgba(255,255,255,0.12); }
+.hangman {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.18);
+}
+
+.hangmanArt {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: pre;
+}
+
