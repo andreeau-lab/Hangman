@@ -18,6 +18,64 @@ let hint = "";
 let guessed = new Set();
 let wrong = 0;
 const MAX_WRONG = 6;
+const HANGMAN_FRAMES = [
+`  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+ /|\\  |
+      |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+ /|\\  |
+ /    |
+      |
+=========`,
+
+`  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+=========` 
+];
+
 let gameOver = false;
 
 // --- Elements ---
@@ -143,3 +201,4 @@ elReset.addEventListener("click", resetGame);
 
 buildKeyboard();
 resetGame();
+
