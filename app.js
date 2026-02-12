@@ -1,188 +1,161 @@
-// --- Word list (edit this freely) ---
 const WORDS = [
-  { word: "monetization", hint: "Value capture strategy" },
-  { word: "packaging", hint: "How you bundle features into plans" },
-  { word: "pricing", hint: "What customers pay" },
-  { word: "marketplace", hint: "Where buyers and sellers meet" },
-  { word: "seattle", hint: "A city in Washington State" },
-  { word: "keyboard", hint: "You are using one right now" },
-  { word: "hangman", hint: "This game" },
-  { word: "espresso", hint: "Strong coffee drink" },
-  { word: "whistler", hint: "BC ski destination" },
-  { word: "maui", hint: "Hawaiian island" },
+  { word: "AXOLOTL", hint: "Smiling amphibian" },
+  { word: "CAPYBARA", hint: "Chill giant rodent" },
+  { word: "NARWHAL", hint: "Unicorn of the sea" },
+  { word: "CHAMELEON", hint: "Color-changing lizard" },
+  { word: "SUNFLOWER", hint: "Tall, sunny plant" },
+  { word: "POMEGRANATE", hint: "Tiny jewel seeds" },
+  { word: "BROCCOLI", hint: "Tiny tree veggie" },
+  { word: "ZUCCHINI", hint: "Green squash" },
+  { word: "TAYLORSWIFT", hint: "Eras tour icon" },
+  { word: "OLIVIARODRIGO", hint: "Sour / Guts" },
+  { word: "BILLIEEILISH", hint: "Whisper-pop queen" },
+  { word: "HOMEWORK", hint: "The classic villain" },
+  { word: "CAFETERIA", hint: "Where mysteries live" },
+  { word: "CRISPITOS", hint: "Best lunch" },
+  { word: "SIXSEVEN", hint: "nonsense" },
+  { word: "SAXOPHONE", hint: "Jazz tube" },
+  { word: "TROMBONE", hint: "The slidey one" },
+  { word: "CLARINET", hint: "Classy and squeaky" }
 ];
 
-// --- Game state ---
+const HANGMAN_FRAMES = [
+`  +----+
+  |    
+  |    
+  |    
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |    
+  |    
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |     |
+  |    
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |    /|
+  |    
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |    /|\\
+  |    
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |    /|\\
+  |    / 
+  |    
+  |    
+========`,
+`  +----+
+  |     O
+  |    /|\\
+  |    / \\
+  |    
+  |    
+========`
+];
+
+const MAX_WRONG = 6;
+
 let answer = "";
 let hint = "";
 let guessed = new Set();
 let wrong = 0;
-const MAX_WRONG = 6;
-const HANGMAN_FRAMES = [
-`  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
- /|\\  |
-      |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
- /|\\  |
- /    |
-      |
-=========`,
-
-`  +---+
-  |   |
-  O   |
- /|\\  |
- / \\  |
-      |
-=========` 
-];
-
 let gameOver = false;
+let wins = 0;
+let played = 0;
 
-// --- Elements ---
 const elWord = document.getElementById("wordDisplay");
 const elGuessed = document.getElementById("guessed");
 const elWrong = document.getElementById("wrong");
 const elLives = document.getElementById("lives");
-const elMessage = document.getElementById("message");
 const elHint = document.getElementById("hint");
+const elMessage = document.getElementById("message");
 const elKeyboard = document.getElementById("keyboard");
 const elReset = document.getElementById("resetBtn");
 const elHangmanArt = document.getElementById("hangmanArt");
+const elScore = document.getElementById("score");
 
+function playSound(good) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "triangle";
+  o.frequency.value = good ? 800 : 220;
+  g.gain.value = 0.15;
+  o.connect(g);
+  g.connect(ctx.destination);
+  o.start();
+  o.frequency.exponentialRampToValueAtTime(
+    good ? 1200 : 120,
+    ctx.currentTime + 0.25
+  );
+  o.stop(ctx.currentTime + 0.25);
+}
 
 function pickWord() {
   const choice = WORDS[Math.floor(Math.random() * WORDS.length)];
-  answer = choice.word.toUpperCase();
+  answer = choice.word;
   hint = choice.hint;
 }
 
 function maskedWord() {
-  // show underscores for A-Z letters; keep other chars (like hyphens) visible
   return answer
     .split("")
-    .map((ch) => {
-      if (ch >= "A" && ch <= "Z") return guessed.has(ch) ? ch : "_";
-      return ch;
-    })
+    .map(l => guessed.has(l) ? l : "_")
     .join(" ");
 }
 
 function render() {
   elWord.textContent = maskedWord();
-  elHangmanArt.textContent = HANGMAN_FRAMES[wrong];
-
-
-  const guessedList = [...guessed].sort().join(" ");
-  elGuessed.textContent = guessedList.length ? guessedList : "—";
-
-  elWrong.textContent = String(wrong);
-  elLives.textContent = String(MAX_WRONG - wrong);
+  elGuessed.textContent = [...guessed].join(" ") || "—";
+  elWrong.textContent = wrong;
+  elLives.textContent = MAX_WRONG - wrong;
   elHint.textContent = hint;
+  elScore.textContent = `${wins} of ${played}`;
+  if (elHangmanArt) elHangmanArt.textContent = HANGMAN_FRAMES[wrong];
+}
 
-  // message
-  elMessage.innerHTML = "";
-  if (gameOver) {
-    if (didWin()) {
-      elMessage.innerHTML = `<span class="win">You win!</span> Press <b>New word</b> to play again.`;
-    } else {
-      elMessage.innerHTML = `<span class="lose">You lose.</span> The word was <b>${answer}</b>. Press <b>New word</b>.`;
-    }
+function endGame(win) {
+  gameOver = true;
+  played++;
+  if (win) {
+    wins++;
+    elMessage.innerHTML = `<span class="win">You win!</span>`;
   } else {
-    elMessage.textContent = "Type a letter to guess.";
+    elMessage.innerHTML = `<span class="lose">You lose.</span> The word was ${answer}`;
   }
-
-  // disable used keys (and everything if game over)
-  const buttons = elKeyboard.querySelectorAll("button.key");
-  buttons.forEach((btn) => {
-    const letter = btn.dataset.letter;
-    btn.disabled = gameOver || guessed.has(letter);
-  });
 }
 
-function didWin() {
-  // all letters revealed
-  for (const ch of answer) {
-    if (ch >= "A" && ch <= "Z" && !guessed.has(ch)) return false;
-  }
-  return true;
-}
-
-function endIfNeeded() {
-  if (didWin()) gameOver = true;
-  if (wrong >= MAX_WRONG) gameOver = true;
-}
-
-function guessLetter(raw) {
-  if (gameOver) return;
-
-  const letter = raw.toUpperCase();
-
-  // Only A-Z single letters
-  if (letter.length !== 1 || letter < "A" || letter > "Z") return;
-  if (guessed.has(letter)) return;
-
+function guess(letter) {
+  if (gameOver || guessed.has(letter)) return;
   guessed.add(letter);
 
-  if (!answer.includes(letter)) {
-    wrong += 1;
+  if (answer.includes(letter)) {
+    playSound(true);
+    if (!maskedWord().includes("_")) endGame(true);
+  } else {
+    playSound(false);
+    wrong++;
+    if (wrong >= MAX_WRONG) endGame(false);
   }
-
-  endIfNeeded();
   render();
-}
-
-function buildKeyboard() {
-  elKeyboard.innerHTML = "";
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  for (const l of letters) {
-    const btn = document.createElement("button");
-    btn.className = "key";
-    btn.type = "button";
-    btn.textContent = l;
-    btn.dataset.letter = l;
-    btn.addEventListener("click", () => guessLetter(l));
-    elKeyboard.appendChild(btn);
-  }
 }
 
 function resetGame() {
@@ -190,20 +163,27 @@ function resetGame() {
   guessed = new Set();
   wrong = 0;
   gameOver = false;
+  elMessage.textContent = "";
   render();
 }
 
-// Physical keyboard support
-window.addEventListener("keydown", (e) => {
-  // Ignore if user is holding modifier keys
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
-  guessLetter(e.key);
+function buildKeyboard() {
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(l => {
+    const b = document.createElement("button");
+    b.textContent = l;
+    b.className = "key";
+    b.onclick = () => guess(l);
+    elKeyboard.appendChild(b);
+  });
+}
+
+window.addEventListener("keydown", e => {
+  if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
+    guess(e.key.toUpperCase());
+  }
 });
 
-// Wire up
-elReset.addEventListener("click", resetGame);
+elReset.onclick = resetGame;
 
 buildKeyboard();
 resetGame();
-
-
