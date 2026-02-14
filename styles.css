@@ -305,7 +305,7 @@ body {
 @media (max-width: 480px) {
   body {
     display: block;          /* overrides grid centering on phones */
-    padding-top: 70px;       /* pushes content below Safari top bar */
+    padding-top: 90px;       /* pushes content below Safari top bar */
     padding-bottom: 160px;   /* keeps bottom button above Safari bottom bar */
   }
 
