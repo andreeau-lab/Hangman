@@ -36,6 +36,23 @@ body {
   padding: 14px;
 }
 
+/* iOS Safari: ensure content starts BELOW the browser header */
+@supports (padding: max(0px)) {
+  body {
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Extra top breathing room on small phones (like your screenshot) */
+@media (max-width: 480px) {
+  body {
+    padding-top: 56px; /* pushes Hangman header fully into view */
+  }
+}
+
+
+
 /* Card */
 .card {
   width: min(820px, 100%);
@@ -52,6 +69,12 @@ body {
 @supports (padding: max(0px)) {
   .card {
     padding-top: max(24px, env(safe-area-inset-top));
+  }
+}
+
+@supports (padding: max(0px)) {
+  .card {
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
   }
 }
 
