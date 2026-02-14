@@ -300,3 +300,26 @@ body {
 
 
 .label {
+
+/* iPhone fix: don't vertically center the whole game; allow scrolling and respect Safari bars */
+@media (max-width: 480px) {
+  body {
+    display: block;          /* overrides grid centering on phones */
+    padding-top: 70px;       /* pushes content below Safari top bar */
+    padding-bottom: 160px;   /* keeps bottom button above Safari bottom bar */
+  }
+
+  .card {
+    margin: 0 auto;          /* keep centered horizontally */
+  }
+}
+
+@supports (padding: max(0px)) {
+  @media (max-width: 480px) {
+    body {
+      padding-top: max(70px, env(safe-area-inset-top));
+      padding-bottom: max(160px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
