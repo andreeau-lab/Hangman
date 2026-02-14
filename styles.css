@@ -323,3 +323,38 @@ body {
   }
 }
 
+/* iPhone / small phones: disable vertical centering + reserve space for Safari bars */
+@media (max-width: 480px) {
+  html, body {
+    height: auto !important;
+    min-height: 100svh;            /* iOS-safe viewport height */
+  }
+
+  body {
+    display: block !important;      /* override display:grid */
+    place-items: initial !important;/* neutralize grid centering */
+    overflow-y: auto;
+
+    /* top/right/left/bottom padding */
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 90px;              /* you can tune this */
+    padding-bottom: 240px;          /* keeps bottom button above Safari bar */
+  }
+
+  .card {
+    margin: 0 auto;                 /* centered horizontally */
+  }
+}
+
+/* Use iOS safe-area insets when supported */
+@supports (padding: max(0px)) {
+  @media (max-width: 480px) {
+    body {
+      padding-top: max(90px, calc(env(safe-area-inset-top) + 16px));
+      padding-bottom: max(240px, calc(env(safe-area-inset-bottom) + 200px));
+    }
+  }
+}
+
+
