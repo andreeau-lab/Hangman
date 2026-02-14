@@ -48,6 +48,14 @@ body {
   overflow: hidden;
 }
 
+/* iOS Safari safe-area spacing so content isn't hidden under browser UI */
+@supports (padding: max(0px)) {
+  .card {
+    padding-top: max(24px, env(safe-area-inset-top));
+  }
+}
+
+
 /* Header */
 .header h1 {
   margin: 0;
