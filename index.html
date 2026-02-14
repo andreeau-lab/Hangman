@@ -14,7 +14,7 @@
           <div class="logo" aria-hidden="true">✨</div>
           <div>
             <h1>Hangman</h1>
-            <p class="sub">Type letters, or tap the keyboard below. (Tablet-friendly!)</p>
+            <p class="sub"</p>
           </div>
         </div>
       </header>
@@ -25,17 +25,18 @@
         <div class="pill">🏆 Win rate: <span id="score">0 of 0</span></div>
       </section>
 
-      <section class="playArea">
-        <section class="hangman" aria-label="Hangman drawing">
-          <div class="panelTitle">The Drama Meter</div>
-          <pre id="hangmanArt" class="hangmanArt"></pre>
-        </section>
+	<section class="playArea">
+  	<section class="hangman" aria-label="Hangman drawing">
+   	 <div class="panelTitle">The Drama Meter</div>
+   	 <pre id="hangmanArt" class="hangmanArt"></pre>
+  </section>
 
-        <section class="word" aria-label="Word to guess">
-          <div class="panelTitle">Guess the Word</div>
-          <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
-        </section>
-      </section>
+  <section class="word" aria-label="Word to guess">
+    <div class="panelTitle">Guess the Word</div>
+    <div id="wordDisplay" class="wordDisplay">_ _ _ _</div>
+  </section>
+</section>
+
 
       <section class="meta" aria-label="Hints and guesses">
         <div class="line">
@@ -53,10 +54,7 @@
       </section>
 
       <section class="keyboardWrap" aria-label="On-screen keyboard">
-        <div class="keyboardHeader">
-          <div class="kbdTitle">Tap letters</div>
-          <div class="kbdNote">Tip: sounds start after your first tap/keypress 🔊</div>
-        </div>
+        
         <div id="keyboard" class="keyboard"></div>
       </section>
 
@@ -75,4 +73,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-

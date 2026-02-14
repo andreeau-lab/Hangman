@@ -3,19 +3,19 @@ const WORDS = [
   ["AXOLOTL","Smiling amphibian"],["CAPYBARA","Chill giant rodent"],["NARWHAL","Unicorn of the sea"],
   ["PLATYPUS","Egg-laying mammal"],["MEERKAT","Desert lookout"],["ORANGUTAN","Red-orange ape"],
   ["CHAMELEON","Color-changing lizard"],["PORCUPINE","Spiky mammal"],["HEDGEHOG","Tiny spiky friend"],
-  ["JELLYFISH","No bones, all vibes"],["BUTTERFLY","Glow-up insect"],["PELICAN","Legendary beak"],
+  ["JELLY FISH","No bones, all vibes"],["BUTTERFLY","Glow-up insect"],["PELICAN","Legendary beak"],
 
   ["SUNFLOWER","Tall, sunny plant"],["DANDELION","Wish-maker weed"],["CACTUS","Spiky desert plant"],
   ["BAMBOO","Fast-growing grass"],["MUSHROOM","Not a plant, still counts"],["RAINFOREST","Mega-biodiversity biome"],
   ["VOLCANO","Spicy mountain"],["HURRICANE","Huge storm system"],
 
-  ["TAYLORSWIFT","Eras tour icon"],["OLIVIARODRIGO","Sour / Guts"],["BILLIEEILISH","Whisper-pop queen"],
-  ["SABRINACARPENTER","Pop star"],["ARIANAGRANDE","High notes"],["THEWEEKND","Stage name"],
-  ["DUALIPA","Dance-pop"],["JUSTINBIEBER","Pop star"],["HARRYSTYLES","Former boy band"],["SHAWNMENDES","Singer-songwriter"],
+  ["TAYLOR SWIFT","Eras tour icon"],["OLIVIA RODRIGO","Sour / Guts"],["BILLIE EILISH","Whisper-pop queen"],
+  ["SABRINA CARPENTER","Pop star"],["ARIANA GRANDE","High notes"],["THE WEEKND","Stage name"],
+  ["DUA LIPA","Dance-pop"],["JUSTIN BIEBER","Pop star"],["HARRY STYLES","Former boy band"],["SHAWN MENDES","Singer-songwriter"],
 
   ["HOMEWORK","The classic villain"],["DEODORANT","Middle school survival"],["CAFETERIA","Where mysteries live"],
-  ["BACKPACK","Portable chaos"],["LOCKER","Tiny metal closet"],["GROUPPROJECT","Friendship stress test"],
-  ["DETENTION","Oops"],["POPQUIZ","Academic jumpscare"],["CRISPITOS","Best lunch"],["SIXSEVEN","nonsense"],
+  ["BACKPACK","Portable chaos"],["LOCKER","Tiny metal closet"],["GROUP PROJECT","Friendship stress test"],
+  ["DETENTION","Oops"],["POP QUIZ","Academic jumpscare"],["CRISPITOS","Best lunch"],["SIX SEVEN","nonsense"],
 
   ["POMEGRANATE","Tiny jewel seeds"],["PINEAPPLE","Spiky on the outside"],["STRAWBERRY","Plot twist fruit"],
   ["RASPBERRY","Tiny bumpy snack"],["AVOCADO","Green toast superstar"],["BROCCOLI","Tiny tree veggie"],
@@ -35,6 +35,10 @@ const HANGMAN_FRAMES = [
   "  +----+\n  |      O\n  |     /|\\\n  |     /\n  |\n  |\n========",
   "  +----+\n  |      O\n  |     /|\\\n  |     / \\\n  |\n  |\n========"
 ];
+
+// Face changes with mistakes (0..6)
+const FACE_BY_WRONG = ["😐", "😕", "😟", "😣", "😫", "😭", "💀"];
+
 
 const MAX_WRONG = 6;
 
@@ -78,7 +82,13 @@ function pickWord() {
 }
 
 function maskedWord() {
-  return answer.split("").map(ch => (guessed.has(ch) ? ch : "_")).join(" ");
+  return answer
+    .split("")
+    .map((ch) => {
+      if (ch === " ") return "\u00A0\u00A0\u00A0"; // TWO non-breaking spaces
+      return guessed.has(ch) ? ch : "_";
+    })
+    .join(" ");
 }
 
 function didWin() {
@@ -87,14 +97,16 @@ function didWin() {
 }
 
 function updateMessage() {
-  if (!gameOver) {
-    elMessage.textContent = "Make a guess ✨";
-    return;
-  }
-  if (didWin()) {
-    elMessage.innerHTML = `<span class="win">SLAY 💅 You got it!</span> Tap <b>New word</b> to keep going.`;
+  if (gameOver) {
+    if (didWin()) {
+      elMessage.innerHTML =
+        `<span class="win">SLAY 💅 You got it!</span> Tap <b>New word</b> to keep going.`;
+    } else {
+      elMessage.innerHTML =
+        `<span class="lose">Nooo 😭</span> The word was <b>${answer}</b>. Tap <b>New word</b>.`;
+    }
   } else {
-    elMessage.innerHTML = `<span class="lose">Nooo 😭</span> The word was <b>${answer}</b>. Tap <b>New word</b>.`;
+    elMessage.textContent = "";
   }
 }
 
@@ -122,6 +134,30 @@ function burstConfetti() {
   setTimeout(() => { elConfetti.innerHTML = ""; }, 1100);
 }
 
+function getHangmanArt() {
+  // Progress-based happy face (when wrong is low)
+  const totalLetters = answer.replace(/[^A-Z]/g, "").length;
+  const guessedLetters = [...guessed].filter(ch => answer.includes(ch)).length;
+  const progress = totalLetters ? guessedLetters / totalLetters : 0;
+
+  let face = FACE_BY_WRONG[Math.min(wrong, FACE_BY_WRONG.length - 1)];
+
+  // If not making many mistakes, let it get happier as progress increases
+  if (!gameOver && wrong <= 1) {
+    if (progress >= 0.85) face = "🤩";
+    else if (progress >= 0.6) face = "😄";
+    else if (progress >= 0.35) face = "🙂";
+    else face = "😐";
+  }
+
+  let art = HANGMAN_FRAMES[wrong].replace("O", face);
+
+  if (gameOver && didWin()) art = art.replace(face, "🤩");
+  return art;
+}
+
+
+
 function render() {
   elWord.textContent = maskedWord();
   elGuessed.textContent = [...guessed].sort().join(" ") || "—";
@@ -129,7 +165,8 @@ function render() {
   elLives.textContent = String(MAX_WRONG - wrong);
   elHint.textContent = hint;
   elScore.textContent = `${wins} of ${played}`;
-  if (elHangmanArt) elHangmanArt.textContent = HANGMAN_FRAMES[wrong];
+  if (elHangmanArt) elHangmanArt.textContent = getHangmanArt();
+
   updateMessage();
 
   // disable keys
